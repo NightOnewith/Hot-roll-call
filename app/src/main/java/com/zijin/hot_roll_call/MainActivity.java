@@ -10,9 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -73,27 +75,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void dialog_message(){
-        final String items[]={"篮球","足球","排球"};
-        final boolean selected[]={true,false,true};
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);  //先得到构造器
-        builder.setTitle("提示"); //设置标题
-        builder.setIcon(R.mipmap.ic_launcher);//设置图标，图片id即可
-        builder.setMultiChoiceItems(items,selected,new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                // dialog.dismiss();
-                Toast.makeText(MainActivity.this, items[which]+isChecked, Toast.LENGTH_SHORT).show();
-            }
-        });
-        builder.setPositiveButton("确定",new DialogInterface.OnClickListener() {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.dialog_message, (ViewGroup) findViewById(R.id.dialog_message));
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("我的信息");
+        builder.setView(layout);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 Toast.makeText(MainActivity.this, "确定", Toast.LENGTH_SHORT).show();
-                //android会自动根据你选择的改变selected数组的值。
-                for (int i=0;i<selected.length;i++){
-                    Log.e("hongliang",""+selected[i]);
-                }
             }
         });
         builder.create().show();
@@ -101,29 +92,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void dialog_about(){
         AlertDialog.Builder builder=new AlertDialog.Builder(this);  //先得到构造器
-        builder.setTitle("提示"); //设置标题
-        builder.setMessage("是否确认退出?"); //设置内容
-        builder.setIcon(R.mipmap.ic_launcher);//设置图标，图片id即可
+        builder.setTitle("关于"); //设置标题
+        builder.setMessage("开始“点名”吧！\n\n“一键点名”是一款为大学师生开发的Android小应用，旨在便捷点名。\n\n那么，可以有多便捷呢？\n\n只需一人安装App，开启热点，同学们（android/ios设备）成功连接并断开即完成点名。\n\n开发人员：殷志俊\n\ngithub项目地址：https://github.com/NightOnewith/Hot-roll-call.git"); //设置内容
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() { //设置确定按钮
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss(); //关闭dialog
                 Toast.makeText(MainActivity.this, "确认" + which, Toast.LENGTH_SHORT).show();
-            }
-        });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() { //设置取消按钮
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                Toast.makeText(MainActivity.this, "取消" + which, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        builder.setNeutralButton("忽略", new DialogInterface.OnClickListener() {//设置忽略按钮
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                Toast.makeText(MainActivity.this, "忽略" + which, Toast.LENGTH_SHORT).show();
             }
         });
         //参数都设置完成了，创建并显示出来
@@ -146,27 +121,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void dialog_call(){
-        final String items[]={"篮球","足球","排球"};
-        final boolean selected[]={true,false,true};
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);  //先得到构造器
-        builder.setTitle("提示"); //设置标题
-        builder.setIcon(R.mipmap.ic_launcher);//设置图标，图片id即可
-        builder.setMultiChoiceItems(items,selected,new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                // dialog.dismiss();
-                Toast.makeText(MainActivity.this, items[which]+isChecked, Toast.LENGTH_SHORT).show();
-            }
-        });
-        builder.setPositiveButton("确定",new DialogInterface.OnClickListener() {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.dialog_call, (ViewGroup) findViewById(R.id.dialog_call));
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("开始点名");
+        builder.setView(layout);
+        builder.setPositiveButton("开始", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                Toast.makeText(MainActivity.this, "确定", Toast.LENGTH_SHORT).show();
-                //android会自动根据你选择的改变selected数组的值。
-                for (int i=0;i<selected.length;i++){
-                    Log.e("hongliang",""+selected[i]);
-                }
+                Toast.makeText(MainActivity.this, "开始", Toast.LENGTH_SHORT).show();
             }
         });
         builder.create().show();
