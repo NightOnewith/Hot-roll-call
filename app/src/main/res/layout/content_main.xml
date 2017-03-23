@@ -12,7 +12,6 @@
     tools:context="com.zijin.hot_roll_call.MainActivity"
     tools:showIn="@layout/activity_main">
 
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

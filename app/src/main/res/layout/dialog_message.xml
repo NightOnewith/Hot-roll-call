@@ -64,12 +64,10 @@
         android:layout_marginRight="26dp"
         android:text="MAC地址：" />
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="26dp"
         android:layout_marginRight="26dp"
-        android:id="@+id/et_mac"
-        android:text="这是本机的mac地址"
-        android:editable="false" />
+        android:id="@+id/tv_mac" />
 </LinearLayout>

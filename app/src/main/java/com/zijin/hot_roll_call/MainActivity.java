@@ -1,27 +1,36 @@
 package com.zijin.hot_roll_call;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+import com.zijin.hot_roll_call.utils.WifiAPUtil;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
+
+public class MainActivity extends AppCompatActivity {
 
     private Button button_call;
     private Button button_check;
+
+
+    public static String hostmac; //本机MAC
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +40,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
 
         button_call = (Button) findViewById(R.id.button_call);
-        button_call.setOnClickListener(this);
         button_check = (Button) findViewById(R.id.button_check);
-        button_check.setOnClickListener(this);
+        button_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, WifiApActivity.class);
+                startActivity(intent);
+            }
+        });
+        button_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "查看历史", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -61,19 +81,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId())
-        {
-            case R.id.button_call:
-                dialog_call();
-                break;
-            case R.id.button_check:
-                Toast.makeText(MainActivity.this, "查看历史", Toast.LENGTH_SHORT).show();
-                break;
-        }
-    }
-
     private void dialog_message(){
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(R.layout.dialog_message, (ViewGroup) findViewById(R.id.dialog_message));
@@ -88,6 +95,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         builder.create().show();
+        hostmac = getLocalMacAddress();//获取本机MAC
+        TextView tv_mac = (TextView) layout.findViewById(R.id.tv_mac);
+        tv_mac.setText(hostmac);
     }
 
     private void dialog_about(){
@@ -101,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this, "确认" + which, Toast.LENGTH_SHORT).show();
             }
         });
-        //参数都设置完成了，创建并显示出来
         builder.create().show();
     }
 
@@ -116,24 +125,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this, "我知道了" + which, Toast.LENGTH_SHORT).show();
             }
         });
-        //参数都设置完成了，创建并显示出来
         builder.create().show();
     }
 
-    private void dialog_call(){
-        LayoutInflater inflater = getLayoutInflater();
-        View layout = inflater.inflate(R.layout.dialog_call, (ViewGroup) findViewById(R.id.dialog_call));
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("开始点名");
-        builder.setView(layout);
-        builder.setPositiveButton("开始", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                Toast.makeText(MainActivity.this, "开始", Toast.LENGTH_SHORT).show();
+    //获取MAC地址（需连接WiFi）
+    public String getLocalMacAddress()
+    {
+        String macSerial = null;
+        String str = "";
+        try {
+            Process pp = Runtime.getRuntime().exec("cat /sys/class/net/wlan0/address");
+            InputStreamReader ir = new InputStreamReader(pp.getInputStream());
+            LineNumberReader input = new LineNumberReader(ir);
+
+            for (; null != str;){
+                str = input.readLine();
+                if (str != null){
+                    macSerial = str.trim();
+                    break;
+                }
             }
-        });
-        builder.create().show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return  macSerial;
     }
 
 }
