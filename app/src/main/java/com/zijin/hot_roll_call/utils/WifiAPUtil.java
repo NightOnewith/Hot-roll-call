@@ -74,6 +74,15 @@ public class WifiAPUtil {
             } else {
                 wcfg.preSharedKey = DEFAULT_AP_PASSWORD;
             }
+            wcfg.hiddenSSID = false;
+            wcfg.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+            wcfg.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+            wcfg.allowedKeyManagement.set(4);
+            //wcfg.allowedKeyManagement.set(4);
+            wcfg.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+            wcfg.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+            wcfg.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+            wcfg.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
         } else if(Type == WifiSecurityType.WIFICIPHER_WPA) {
             //密码至少8位，否则使用默认密码
             if(null != password && password.length() >= 8){
@@ -84,7 +93,7 @@ public class WifiAPUtil {
             wcfg.hiddenSSID = false;
             wcfg.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
             wcfg.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
-            wcfg.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+            wcfg.allowedKeyManagement.set(4);
             //wcfg.allowedKeyManagement.set(4);
             wcfg.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
             wcfg.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
@@ -97,7 +106,7 @@ public class WifiAPUtil {
             } else {
                 wcfg.preSharedKey = DEFAULT_AP_PASSWORD;
             }
-            wcfg.hiddenSSID = true;
+            wcfg.hiddenSSID = false;
             wcfg.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
             wcfg.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
             wcfg.allowedKeyManagement.set(4);

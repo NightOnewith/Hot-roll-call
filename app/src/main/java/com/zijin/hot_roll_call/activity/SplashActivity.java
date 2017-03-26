@@ -1,4 +1,4 @@
-package com.zijin.hot_roll_call;
+package com.zijin.hot_roll_call.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
+
+import com.zijin.hot_roll_call.R;
 
 public class SplashActivity extends Activity {
     private ImageView iv_splash;
@@ -24,7 +26,7 @@ public class SplashActivity extends Activity {
         iv_splash = (ImageView) findViewById(R.id.iv_splash);
         //执行一个启动动画效果
         AlphaAnimation animation = new AlphaAnimation(0.0f, 1.0f);
-        animation.setDuration(3000);//设置动画时间
+        animation.setDuration(2000);//设置动画时间
         iv_splash.startAnimation(animation);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
